@@ -2,7 +2,6 @@ import React from 'react'
 import { useUser, RequireAuth } from '../hooks/authUser'
 
 import { Card, Typography, Space } from '@supabase/ui'
-import Header from '../components/Header'
 import Layout from '../components/Layout'
 
 export default function Profile() {

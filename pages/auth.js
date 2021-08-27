@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { AuthRedirect } from '../hooks/authUser'
-import { supabase } from '../utils/initSupabase'
 
 import Layout from '../components/Layout'
 import LoginView from '../components/LoginView'

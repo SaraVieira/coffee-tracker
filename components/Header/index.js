@@ -3,24 +3,16 @@ import { Fragment } from 'react'
 import { Popover } from '@headlessui/react'
 import Router from 'next/router'
 import { useUser, signOut } from '../../hooks/authUser'
-import { Disclosure, Menu, Switch, Transition } from '@headlessui/react'
-import { SearchIcon } from '@heroicons/react/solid'
-import {
-  BellIcon,
-  CogIcon,
-  CreditCardIcon,
-  KeyIcon,
-  MenuIcon,
-  UserCircleIcon,
-  ViewGridAddIcon,
-  XIcon,
-} from '@heroicons/react/outline'
+import { Menu, Transition } from '@headlessui/react'
+import { MenuIcon, XIcon } from '@heroicons/react/outline'
+
 const navigation = [
   { name: 'Product', href: '#' },
   { name: 'Features', href: '#' },
   { name: 'Marketplace', href: '#' },
   { name: 'Company', href: '#' },
 ]
+
 const userNavigation = [
   { name: 'Dashboard', href: '/dashboard' },
   { name: 'Your Profile', href: '/profile' },

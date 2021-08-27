@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { AuthRedirect } from '../hooks/authUser'
 import { supabase } from '../utils/initSupabase'
 
 const LoginView = () => {

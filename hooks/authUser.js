@@ -64,7 +64,7 @@ export const UserContextProvider = (props) => {
       setSession(session)
       setUser(session?.user ?? false)
       if (user) {
-        let { data, error, status } = await supabase
+        let { error, status } = await supabase
           .from('profiles')
           .select('id')
           .eq('id', user.id)
