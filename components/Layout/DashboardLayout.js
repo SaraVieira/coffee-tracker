@@ -1,43 +1,18 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { Fragment, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
-import {
-  BellIcon,
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  MenuAlt2Icon,
-  UsersIcon,
-  XIcon,
-} from '@heroicons/react/outline'
+import { MenuAlt2Icon, XIcon } from '@heroicons/react/outline'
 import { SearchIcon } from '@heroicons/react/solid'
 import { signOut, useUser } from '../../hooks/authUser'
-import Link from 'next/Link'
-import Router from 'next/dist/next-server/server/router'
+import Link from 'next/link'
+import Router, { useRouter } from 'next/router'
+import {
+  COFFEES_ROUTE,
+  ROASTERS_ROUTE,
+  DASHBOARD_ROUTE,
+  TASTINGS_ROUTE,
+} from '../../utils/constants'
+import { CoffeeIcon, RoastersIcons, TastingsIcon, HomeIcon } from '../Icons'
 
-const navigation = [
-  { name: 'Home', href: '/', icon: HomeIcon, current: true },
-  { name: 'Tastings', href: '/dashboard/tastings', icon: UsersIcon, current: false },
-  { name: 'Coffees', href: '/dashboard/coffees', icon: FolderIcon, current: false },
-  { name: 'Roasters', href: '/dashboard/roasters', icon: CalendarIcon, current: false },
-]
 const userNavigation = [
   { name: 'Dashboard', href: '/dashboard' },
   { name: 'Your Profile', href: '/profile' },
@@ -55,6 +30,37 @@ function classNames(...classes) {
 }
 
 export default function DashboardLayout({ children, title }) {
+  const { route } = useRouter()
+
+  const navigation = useMemo(
+    () => [
+      {
+        name: 'Home',
+        href: '/',
+        icon: HomeIcon,
+        current: route === DASHBOARD_ROUTE,
+      },
+      {
+        name: 'Tastings',
+        href: '/dashboard/tastings',
+        icon: TastingsIcon,
+        current: route === TASTINGS_ROUTE,
+      },
+      {
+        name: 'Coffees',
+        href: '/dashboard/coffees',
+        icon: CoffeeIcon,
+        current: route === COFFEES_ROUTE,
+      },
+      {
+        name: 'Roasters',
+        href: '/dashboard/roasters',
+        icon: RoastersIcons,
+        current: route === ROASTERS_ROUTE,
+      },
+    ],
+    []
+  )
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { user } = useUser()
   return (

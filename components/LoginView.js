@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { LOGIN_VIEWS } from '../utils/constants'
 import { supabase } from '../utils/initSupabase'
 
 const LoginView = () => {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [view, setView] = useState(LOGIN_VIEWS.CREATE)
+  const [message, setMessage] = useState('')
 
   const githubLogin = async () => {
     await supabase.auth.signIn({
@@ -16,9 +19,20 @@ const LoginView = () => {
     e.preventDefault()
     setLoading(true)
     await supabase.auth.signIn({
-      email: 'example@email.com',
-      password: 'example-password',
+      email,
+      password,
     })
+    setLoading(false)
+  }
+
+  const signUp = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    await supabase.auth.signUp({
+      email,
+      password,
+    })
+    setMessage('Please check your email for a confirmation link')
     setLoading(false)
   }
 
@@ -73,16 +87,16 @@ const LoginView = () => {
         </div>
 
         <div className="mt-6">
-          <form onSubmit={signIn} className="space-y-6">
+          <form onSubmit={(e) => (view === 'CREATE' ? signUp(e) : signIn(e))} className="space-y-6">
             <div>
               <label htmlFor="name" className="sr-only">
                 Email
               </label>
               <input
                 type="email"
-                name="name"
-                id="name"
-                autoComplete="name"
+                name="email"
+                id="email"
+                autoComplete="email"
                 placeholder="Email"
                 required
                 className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
@@ -107,17 +121,29 @@ const LoginView = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-
+            {message && <p className="text-center text-gray-600 text-sm">{message}</p>}
             <div>
               <button
                 disabled={loading}
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:cursor-default disabled:opacity-40"
               >
-                Create your account
+                {view === 'CREATE' ? 'Create your account' : 'Sign in'}
               </button>
             </div>
           </form>
+          <div className="mt-5 text-center text-sm">
+            <button
+              className="text-blue-500"
+              onClick={() => {
+                setView((view) =>
+                  view === LOGIN_VIEWS.CREATE ? LOGIN_VIEWS.LOGIN : LOGIN_VIEWS.CREATE
+                )
+              }}
+            >
+              {view === LOGIN_VIEWS.CREATE ? 'Sign in instead' : 'Create Account Instead'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
