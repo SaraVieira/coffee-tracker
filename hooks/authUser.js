@@ -64,6 +64,13 @@ export const UserContextProvider = (props) => {
       setSession(session)
       setUser(session?.user ?? false)
       if (user) {
+        fetch('/api/auth', {
+          method: 'POST',
+          headers: new Headers({ 'Content-Type': 'application/json' }),
+          credentials: 'same-origin',
+          body: JSON.stringify({ event, session }),
+        }).then((res) => res.json())
+
         let { error, status } = await supabase
           .from('profiles')
           .select('id')

@@ -29,7 +29,11 @@ const Layout = ({ children }) => (
     </div>
     <div className="relative pt-6 pb-16 sm:pb-24">
       <Header />
-      <main className="mt-16 sm:mt-24">{children}</main>
+      <main className="mt-16 sm:mt-24">
+        <div className="sm:max-w-6xl p-8 sm:w-full sm:mx-auto sm:rounded-lg sm:overflow-hidden">
+          {children}
+        </div>
+      </main>
     </div>
   </div>
 )
