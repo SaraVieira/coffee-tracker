@@ -16,7 +16,7 @@ const AsideWrapper = ({ children, closeAside }) => {
       entered="absolute top-0 h-screen w-full md:w-96 right-0"
     >
       <aside
-        className=" bg-white p-8 border-l border-gray-200 overflow-y-auto pt-20 h-full"
+        className=" bg-white p-8 border-l border-gray-200 overflow-y-auto pt-20 h-full relative z-10"
         ref={ref}
       >
         <div className="flex justify-end relative top-[-40px]">

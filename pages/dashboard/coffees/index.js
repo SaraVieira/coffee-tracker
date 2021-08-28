@@ -56,7 +56,7 @@ const Roasters = ({ coffees: starterCoffees, user, roasters }) => {
   return (
     <DashboardLayout title="Coffees">
       <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="flex-1 flex items-stretch overflow-hidden">
+        <div className="flex-1 flex items-stretch">
           <main className="flex-1 overflow-y-auto">
             <div className="pt-8 max-w-7xl mx-auto">
               <div className="flex">
@@ -112,14 +112,14 @@ const Roasters = ({ coffees: starterCoffees, user, roasters }) => {
                                 alt={coffee.name}
                                 className={classNames(
                                   coffee.active ? '' : 'group-hover:opacity-75',
-                                  'object-cover pointer-events-none w-full h-full'
+                                  'object-cover pointer-events-none w-full h-full rounded-lg'
                                 )}
                               />
                             ) : (
                               <div
                                 className={classNames(
                                   coffee.active ? '' : 'group-hover:opacity-75',
-                                  'text-center flex items-center text-white h-full justify-center bold text-6xl object-cover pointer-events-none'
+                                  'text-center flex items-center text-white h-full justify-center bold text-6xl object-cover pointer-events-none rounded-lg'
                                 )}
                                 style={{
                                   background: coffee.color,

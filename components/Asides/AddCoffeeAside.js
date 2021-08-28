@@ -1,16 +1,16 @@
 import { useMemo, useState } from 'react'
 import { COFFEE_STORAGE, STORAGE_BASE_URL } from '../../utils/constants'
-import countries from '../../utils/countries'
 import Input from '../form/Input'
 import Textarea from '../form/TextArea'
 import Select from '../form/Select'
 import Avatar from '../UploadImages'
 import AsideWrapper from './Wrapper'
+import { addCoffee } from '../../utils/api/coffee'
 
 const AddCoffeeAside = ({ user, onClose, roasters }) => {
   const [state, setState] = useState({})
 
-  const addCoffee = async (e) => {
+  const insertCoffee = async (e) => {
     e.preventDefault()
     try {
       await addCoffee({
@@ -28,7 +28,7 @@ const AddCoffeeAside = ({ user, onClose, roasters }) => {
 
   return (
     <AsideWrapper closeAside={onClose}>
-      <form className="space-y-8 divide-y divide-gray-200" onSubmit={addCoffee}>
+      <form className="space-y-8 divide-y divide-gray-200" onSubmit={insertCoffee}>
         <div className="space-y-8 divide-y divide-gray-200">
           <div>
             <Input

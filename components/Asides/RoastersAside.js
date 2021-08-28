@@ -1,8 +1,19 @@
+import { useEffect, useState } from 'react'
+import { getCoffeesForRoaster } from '../../utils/api/coffee'
 import classNames from '../../utils/classsesNames'
+import { COFFEE_DB } from '../../utils/constants'
 import getInitials from '../../utils/getInitials'
+import { supabase } from '../../utils/initSupabase'
 import AsideWrapper from './Wrapper'
 
 const RoastersAside = ({ setCurrentRoaster, setRoasters, currentRoaster }) => {
+  const [coffees, setCoffees] = useState()
+
+  useEffect(async () => {
+    const coffees = await getCoffeesForRoaster({ currentRoaster })
+    setCoffees(coffees)
+  }, [])
+
   return (
     <AsideWrapper
       closeAside={() => {
@@ -49,6 +60,21 @@ const RoastersAside = ({ setCurrentRoaster, setRoasters, currentRoaster }) => {
             {currentRoaster.location}
           </p>
         </div>
+        {currentRoaster.website && (
+          <div>
+            <h3 className="font-medium text-gray-900">Website</h3>
+            <div className="mt-2 flex items-center justify-between">
+              <a
+                href={currentRoaster.website}
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm font-medium text-gray-500"
+              >
+                {currentRoaster.website}
+              </a>
+            </div>
+          </div>
+        )}
         {currentRoaster.notes && (
           <div>
             <h3 className="font-medium text-gray-900">Notes</h3>
@@ -57,6 +83,30 @@ const RoastersAside = ({ setCurrentRoaster, setRoasters, currentRoaster }) => {
             </div>
           </div>
         )}
+
+        <div>
+          <h3 className="font-medium text-gray-900">Coffees</h3>
+          {coffees ? (
+            <>
+              {coffees.length ? (
+                <dl className="mt-2 border-t border-b border-gray-200 divide-y divide-gray-200">
+                  {coffees.map((coffee) => (
+                    <div key={coffees.id} className="py-3 flex justify-between text-sm font-medium">
+                      <dt className="text-gray-500">{coffee.name}</dt>
+                      <dd className="text-gray-900">{coffee.roast}</dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : (
+                <p className="text-sm font-medium text-gray-500 mt-2 ">
+                  No coffees for this roaster
+                </p>
+              )}
+            </>
+          ) : (
+            <p className="text-sm font-medium text-gray-500 mt-2 ">Getting Coffees</p>
+          )}
+        </div>
 
         {currentRoaster.tastings && (
           <div>

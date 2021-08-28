@@ -21,3 +21,12 @@ export const addCoffee = async (coffee) => {
   const { data } = await supabase.from(COFFEE_DB).insert(coffee)
   return data
 }
+
+export const getCoffeesForRoaster = async ({ currentRoaster }) => {
+  const { data } = await supabase
+    .from(COFFEE_DB)
+    .select('id,name,roast')
+    .eq('roaster', currentRoaster.id)
+
+  return data
+}
