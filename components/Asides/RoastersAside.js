@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
 import { getCoffeesForRoaster } from '../../utils/api/coffee'
 import classNames from '../../utils/classsesNames'
-import { COFFEE_DB } from '../../utils/constants'
-import getInitials from '../../utils/getInitials'
-import { supabase } from '../../utils/initSupabase'
+import IncognitoAvatar from '../Avatar'
 import AsideWrapper from './Wrapper'
 
-const RoastersAside = ({ setCurrentRoaster, setRoasters, currentRoaster }) => {
+const RoastersAside = ({ setCurrentRoaster,  currentRoaster }) => {
   const [coffees, setCoffees] = useState()
 
   useEffect(async () => {
@@ -18,12 +16,6 @@ const RoastersAside = ({ setCurrentRoaster, setRoasters, currentRoaster }) => {
     <AsideWrapper
       closeAside={() => {
         setCurrentRoaster(null)
-        setRoasters((ro) =>
-          ro.map((a) => ({
-            ...a,
-            active: false,
-          }))
-        )
       }}
     >
       <div className="pb-16 space-y-6">
@@ -36,11 +28,8 @@ const RoastersAside = ({ setCurrentRoaster, setRoasters, currentRoaster }) => {
                 className={classNames(
                   'text-center flex items-center text-white h-[200px] justify-center bold text-6xl object-cover pointer-events-none'
                 )}
-                style={{
-                  background: currentRoaster.color,
-                }}
               >
-                {getInitials(currentRoaster.name)}
+                <IncognitoAvatar name={currentRoaster.name} />
               </div>
             )}
           </div>

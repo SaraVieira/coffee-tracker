@@ -5,27 +5,24 @@ import {
   ViewGridIcon as ViewGridIconSolid,
   ViewListIcon,
 } from '@heroicons/react/solid'
-import Link from 'next/Link'
 import DashboardLayout from '../../../components/Layout/DashboardLayout'
-import { supabase } from '../../../utils/initSupabase'
 import RoastersAside from '../../../components/Asides/RoastersAside'
 import classNames from '../../../utils/classsesNames'
 import getInitials from '../../../utils/getInitials'
 import AddRoasterAside from '../../../components/Asides/AddRoasterAside'
 import { getUser } from '../../../utils/requireAuth'
 import { getRoasters } from '../../../utils/api/roasters'
-
-const colors = ['#00819d', '#00a4a6', '#00a4a6', '#00a4a6', '#336E7B', '#1460AA']
+import {  useQuery, useQueryClient } from 'react-query'
+import IncognitoAvatar from '../../../components/Avatar'
 
 const Roasters = ({ roasters: starterRoasters, user }) => {
+  const queryClient = useQueryClient()
+  const { data: roasters } = useQuery('fetch-roasters', () => getRoasters({ user }), {
+    initialData: starterRoasters,
+  })
+
   const [currentRoaster, setCurrentRoaster] = useState()
   const [showAdd, setShowAdd] = useState(false)
-  const [roasters, setRoasters] = useState(
-    starterRoasters.map((roast) => ({
-      ...roast,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    }))
-  )
 
   return (
     <DashboardLayout title="Roasters">
@@ -61,6 +58,7 @@ const Roasters = ({ roasters: starterRoasters, user }) => {
                       user={user}
                       onClose={() => {
                         setShowAdd(false)
+                        queryClient.invalidateQueries('fetch-roasters')
                       }}
                     />
                   )}
@@ -77,25 +75,11 @@ const Roasters = ({ roasters: starterRoasters, user }) => {
                         className="focus:outline-none text-left w-full h-full"
                         onClick={() => {
                           setCurrentRoaster(roaster)
-                          setRoasters((ro) =>
-                            ro.map((a) => {
-                              if (a.id === roaster.id) {
-                                return {
-                                  ...a,
-                                  active: true,
-                                }
-                              }
-                              return {
-                                ...a,
-                                active: false,
-                              }
-                            })
-                          )
                         }}
                       >
                         <div
                           className={classNames(
-                            roaster.active
+                            roaster.id === currentRoaster?.id
                               ? 'ring-2 ring-offset-2 ring-indigo-500'
                               : 'focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500',
                             'group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden h-full'
@@ -106,22 +90,21 @@ const Roasters = ({ roasters: starterRoasters, user }) => {
                               src={roaster.image}
                               alt={roaster.name}
                               className={classNames(
-                                roaster.active ? '' : 'group-hover:opacity-75',
+                                roaster.id === currentRoaster?.id ? '' : 'group-hover:opacity-75',
                                 'object-cover pointer-events-none w-full h-full rounded-lg'
                               )}
                             />
                           ) : (
-                            <div
-                              className={classNames(
-                                roaster.active ? '' : 'group-hover:opacity-75',
-                                'text-center flex items-center text-white h-full justify-center bold text-6xl object-cover pointer-events-none rounded-lg'
-                              )}
-                              style={{
-                                background: roaster.color,
-                              }}
-                            >
-                              {getInitials(roaster.name)}
-                            </div>
+                            <>
+                              <div
+                                className={classNames(
+                                  roaster.id === currentRoaster?.id ? '' : 'group-hover:opacity-75',
+                                  'text-center flex items-center text-white h-full justify-center bold text-6xl object-cover pointer-events-none rounded-lg'
+                                )}
+                              >
+                                <IncognitoAvatar name={roaster.name} />
+                              </div>
+                            </>
                           )}
                         </div>
                         <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
@@ -136,11 +119,7 @@ const Roasters = ({ roasters: starterRoasters, user }) => {
           </main>
 
           {currentRoaster && (
-            <RoastersAside
-              currentRoaster={currentRoaster}
-              setCurrentRoaster={setCurrentRoaster}
-              setRoasters={setRoasters}
-            />
+            <RoastersAside currentRoaster={currentRoaster} setCurrentRoaster={setCurrentRoaster} />
           )}
         </div>
       </div>
@@ -156,7 +135,12 @@ export async function getServerSideProps({ req }) {
 
   const roasters = await getRoasters({ user })
 
-  return { props: { user, roasters } }
+  return {
+    props: {
+      user,
+      roasters,
+    },
+  }
 }
 
 export default Roasters

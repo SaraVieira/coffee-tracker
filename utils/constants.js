@@ -3,6 +3,8 @@ export const LOGIN_VIEWS = {
   LOGIN: 'login',
 }
 
+export const COLORS = ['#00819d', '#00a4a6', '#00a4a6', '#00a4a6', '#336E7B', '#1460AA']
+
 export const COFFEE_DB = 'coffees'
 export const ROASTERS_DB = 'roasters'
 

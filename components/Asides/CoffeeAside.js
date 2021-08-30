@@ -1,8 +1,8 @@
 import classNames from '../../utils/classsesNames'
-import getInitials from '../../utils/getInitials'
+import IncognitoAvatar from '../Avatar'
 import AsideWrapper from './Wrapper'
 
-const CoffeeAside = ({ setCurrentCoffee, setCoffees, currentCoffee }) => {
+const CoffeeAside = ({ setCurrentCoffee, currentCoffee }) => {
   const info = [
     { key: 'Roaster', value: currentCoffee.roaster.name, href: currentCoffee.roaster.website },
     { key: 'Roast', value: currentCoffee.roast },
@@ -14,12 +14,6 @@ const CoffeeAside = ({ setCurrentCoffee, setCoffees, currentCoffee }) => {
     <AsideWrapper
       closeAside={() => {
         setCurrentCoffee(null)
-        setCoffees((ro) =>
-          ro.map((a) => ({
-            ...a,
-            active: false,
-          }))
-        )
       }}
     >
       <div className="pb-16 space-y-6">
@@ -32,11 +26,8 @@ const CoffeeAside = ({ setCurrentCoffee, setCoffees, currentCoffee }) => {
                 className={classNames(
                   'text-center flex items-center text-white h-[200px] justify-center bold text-6xl object-cover pointer-events-none'
                 )}
-                style={{
-                  background: currentCoffee.color,
-                }}
               >
-                {getInitials(currentCoffee.name)}
+                <IncognitoAvatar name={currentCoffee.name} />
               </div>
             )}
           </div>

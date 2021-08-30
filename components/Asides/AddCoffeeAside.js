@@ -36,8 +36,10 @@ const AddCoffeeAside = ({ user, onClose, roasters }) => {
               onChange={(e) => setState((s) => ({ ...s, name: e.target.value }))}
               name="name"
               label="Name"
+              required
             />
             <Select
+            required
               name="roaster"
               label="roaster"
               options={roasterOptions}

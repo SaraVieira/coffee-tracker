@@ -6,51 +6,27 @@ import {
   ViewListIcon,
 } from '@heroicons/react/solid'
 import DashboardLayout from '../../../components/Layout/DashboardLayout'
-import { supabase } from '../../../utils/initSupabase'
-import RoastersAside from '../../../components/Asides/RoastersAside'
 import classNames from '../../../utils/classsesNames'
-import getInitials from '../../../utils/getInitials'
 import Empty from '../../../components/Empty'
 import AddCoffeeAside from '../../../components/Asides/AddCoffeeAside'
 import CoffeeAside from '../../../components/Asides/CoffeeAside'
 import { getCoffees } from '../../../utils/api/coffee'
 import { getMinimalRoasters } from '../../../utils/api/roasters'
-import { getUser, requireAuth } from '../../../utils/requireAuth'
-
-const colors = ['#00819d', '#00a4a6', '#00a4a6', '#00a4a6', '#336E7B', '#1460AA']
+import { getUser } from '../../../utils/requireAuth'
+import IncognitoAvatar from '../../../components/Avatar'
+import { useQuery, useQueryClient } from 'react-query'
 
 const Roasters = ({ coffees: starterCoffees, user, roasters }) => {
   const [currentCoffee, setCurrentCoffee] = useState()
   const [showAdd, setShowAdd] = useState(false)
-  const [coffees, setCoffees] = useState(
-    starterCoffees.map((coffee) => ({
-      ...coffee,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    }))
-  )
+  const { data: coffees } = useQuery('fetch-coffees', () => getCoffees({ user }), {
+    initialData: starterCoffees,
+  })
+  const queryClient = useQueryClient()
 
-  const refetchData = async () => {
+  const refetchData = () => {
     setShowAdd(false)
-    const coffees = await getCoffees({ user })
-    setCoffees(coffees)
-  }
-
-  const setActive = async (coffee) => {
-    setCurrentCoffee(coffee)
-    setCoffees((ro) =>
-      ro.map((a) => {
-        if (a.id === coffee.id) {
-          return {
-            ...a,
-            active: true,
-          }
-        }
-        return {
-          ...a,
-          active: false,
-        }
-      })
-    )
+    queryClient.invalidateQueries('fetch-coffees')
   }
 
   return (
@@ -96,11 +72,11 @@ const Roasters = ({ coffees: starterCoffees, user, roasters }) => {
                         <button
                           type="button"
                           className="focus:outline-none text-left w-full h-full"
-                          onClick={() => setActive(coffee)}
+                          onClick={() => setCurrentCoffee(coffee)}
                         >
                           <div
                             className={classNames(
-                              coffee.active
+                              coffee.id === currentCoffee?.id
                                 ? 'ring-2 ring-offset-2 ring-indigo-500'
                                 : 'focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500',
                               'group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden h-full'
@@ -111,21 +87,18 @@ const Roasters = ({ coffees: starterCoffees, user, roasters }) => {
                                 src={coffee.image}
                                 alt={coffee.name}
                                 className={classNames(
-                                  coffee.active ? '' : 'group-hover:opacity-75',
+                                  coffee.id === currentCoffee?.id ? '' : 'group-hover:opacity-75',
                                   'object-cover pointer-events-none w-full h-full rounded-lg'
                                 )}
                               />
                             ) : (
                               <div
                                 className={classNames(
-                                  coffee.active ? '' : 'group-hover:opacity-75',
+                                  coffee.id === currentCoffee?.id ? '' : 'group-hover:opacity-75',
                                   'text-center flex items-center text-white h-full justify-center bold text-6xl object-cover pointer-events-none rounded-lg'
                                 )}
-                                style={{
-                                  background: coffee.color,
-                                }}
                               >
-                                {getInitials(coffee.name)}
+                                <IncognitoAvatar name={coffee.name} />
                               </div>
                             )}
                           </div>
@@ -150,7 +123,6 @@ const Roasters = ({ coffees: starterCoffees, user, roasters }) => {
             <CoffeeAside
               currentCoffee={currentCoffee}
               setCurrentCoffee={setCurrentCoffee}
-              setCoffees={setCoffees}
             />
           )}
         </div>

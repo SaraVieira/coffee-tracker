@@ -22,8 +22,7 @@ const AddRoasterAside = ({ user, onClose }) => {
 
   return (
     <AsideWrapper closeAside={onClose}>
-      <form className="space-y-8 divide-y divide-gray-200" onSubmit={insertRoaster}>
-        <div className="space-y-8 divide-y divide-gray-200">
+      <form className="space-y-8" onSubmit={insertRoaster}>
           <Input
             name="name"
             label="Name"
@@ -60,7 +59,6 @@ const AddRoasterAside = ({ user, onClose }) => {
             value={state.website}
             onChange={(e) => setState((s) => ({ ...s, website: e.target.value }))}
           />
-        </div>
 
         <div className="pt-5">
           <div className="flex justify-end">
