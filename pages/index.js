@@ -1,5 +1,6 @@
 import Layout from '../components/Layout'
 import LoginView from '../components/LoginView'
+import { getUser } from '../utils/requireAuth'
 
 export default function Example() {
   return (
@@ -54,4 +55,15 @@ export default function Example() {
       </div>
     </Layout>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  const { user } = await getUser(req)
+  if (user) {
+    return { props: {}, redirect: { destination: '/dashboard', permanent: false } }
+  }
+
+  return {
+    props: {},
+  }
 }

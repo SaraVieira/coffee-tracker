@@ -3,7 +3,7 @@ import { getMinimalRoasters } from '../../../utils/api/roasters'
 import { getUser } from '../../../utils/requireAuth'
 import Coffees from '../../../views/coffee/main'
 
-const Roasters = (props) =>  <Coffees {...props}/>
+const CoffeesPage = (props) => <Coffees {...props} />
 
 export async function getServerSideProps({ req }) {
   const { user } = await getUser(req)
@@ -18,4 +18,4 @@ export async function getServerSideProps({ req }) {
   return { props: { user, coffees, roasters } }
 }
 
-export default Roasters
+export default CoffeesPage

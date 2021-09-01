@@ -14,19 +14,17 @@ const CoffeeAside = ({ refetchData, currentCoffee }) => {
     { key: 'Origin', value: `${currentCoffee.origin_city}, ${currentCoffee.origin_country}` },
     { key: 'Flavors', value: currentCoffee.flavors },
   ]
+  const sendHome = () => router.push(COFFEES_ROUTE, undefined, { shallow: true })
+
   const mutation = useMutation(() => removeCoffee({ id: currentCoffee.id }), {
     onSuccess: () => {
-      router.push(COFFEES_ROUTE, null, { shallow: true })
+      sendHome()
       refetchData()
     },
   })
 
   return (
-    <AsideWrapper
-      closeAside={() => {
-        router.push(COFFEES_ROUTE, null, { shallow: true })
-      }}
-    >
+    <AsideWrapper closeAside={sendHome}>
       <div className="pb-16 space-y-6">
         <div>
           <div className="block w-full aspect-w-10 aspect-h-7 rounded-lg overflow-hidden">
@@ -54,7 +52,7 @@ const CoffeeAside = ({ refetchData, currentCoffee }) => {
         </div>
         <dl className="mt-2 border-t border-b border-gray-200 divide-y divide-gray-200">
           {info.map(({ key, value, href }) => (
-            <div className="py-3 flex justify-between text-sm font-medium">
+            <div className="py-3 flex justify-between text-sm font-medium" key={key}>
               <dt className="text-gray-500">{key}</dt>
               <dd className="text-gray-900">
                 {href ? (
