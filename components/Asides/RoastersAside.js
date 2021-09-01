@@ -1,31 +1,35 @@
-import { useQuery } from 'react-query'
+import { useRouter } from 'next/router'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { getCoffeesForRoaster } from '../../utils/api/coffee'
-import classNames from '../../utils/classsesNames'
+import { removeRoaster } from '../../utils/api/roasters'
+import { QUERIES, ROASTERS_ROUTE } from '../../utils/constants'
 import IncognitoAvatar from '../Avatar'
 import AsideWrapper from './Wrapper'
 
-const RoastersAside = ({ setCurrentRoaster, currentRoaster }) => {
+const RoastersAside = ({ currentRoaster }) => {
+  const router = useRouter()
   const { data: coffees } = useQuery('coffees-for-roaster', () =>
     getCoffeesForRoaster({ currentRoaster })
   )
+  const queryClient = useQueryClient()
+  const sendHome = () => router.push(ROASTERS_ROUTE, undefined, { shallow: true })
+
+  const mutation = useMutation(() => removeRoaster({ id: currentRoaster.id }), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(QUERIES.ROASTER_QUERY)
+      sendHome()
+    },
+  })
 
   return (
-    <AsideWrapper
-      closeAside={() => {
-        setCurrentRoaster(null)
-      }}
-    >
+    <AsideWrapper closeAside={sendHome}>
       <div className="pb-16 space-y-6">
         <div>
           <div className="block w-full aspect-w-10 aspect-h-7 rounded-lg overflow-hidden">
             {currentRoaster.image ? (
               <img src={currentRoaster.image} alt={currentRoaster.name} className="object-cover" />
             ) : (
-              <div
-                className={classNames(
-                  'text-center flex items-center text-white h-[200px] justify-center bold text-6xl object-cover pointer-events-none'
-                )}
-              >
+              <div className="text-center flex items-center text-white h-[200px] justify-center bold text-6xl object-cover pointer-events-none">
                 <IncognitoAvatar name={currentRoaster.name} />
               </div>
             )}
@@ -119,6 +123,7 @@ const RoastersAside = ({ setCurrentRoaster, currentRoaster }) => {
           </a>
           <button
             type="button"
+            onClick={mutation.mutate}
             className="flex-1 ml-3 bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Delete

@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { useQueryClient } from 'react-query'
 import { addRoaster } from '../../utils/api/roasters'
-import { ROASTERS_STORAGE, STORAGE_BASE_URL } from '../../utils/constants'
+import { QUERIES, ROASTERS_STORAGE, STORAGE_BASE_URL } from '../../utils/constants'
 import Input from '../form/Input'
 import Textarea from '../form/TextArea'
 import Avatar from '../UploadImages'
@@ -8,6 +9,7 @@ import AsideWrapper from './Wrapper'
 
 const AddRoasterAside = ({ user, onClose }) => {
   const [state, setState] = useState({})
+  const queryClient = useQueryClient()
 
   const insertRoaster = async (e) => {
     e.preventDefault()
@@ -16,8 +18,11 @@ const AddRoasterAside = ({ user, onClose }) => {
         userId: user.id,
         ...state,
       })
+      queryClient.invalidateQueries(QUERIES.ROASTER_QUERY)
       onClose()
-    } catch {}
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (

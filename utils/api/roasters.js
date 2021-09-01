@@ -21,3 +21,9 @@ export const addRoaster = async (roaster) => {
 
   return data
 }
+
+export const removeRoaster = async ({ id }) => {
+  const { data } = await supabase.from(ROASTERS_DB).delete().match({ id })
+
+  return data
+}

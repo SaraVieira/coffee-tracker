@@ -3,18 +3,20 @@ import {
   ViewGridIcon as ViewGridIconSolid,
   ViewListIcon,
 } from '@heroicons/react/solid'
+import AddRoasterAside from '../../components/Asides/AddRoasterAside'
 import AddCoffeeAside from '../../components/Asides/AddCoffeeAside'
 import { useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { QUERIES } from '../../utils/constants'
 
-const Header = ({ user, roasters }) => {
+const Header = ({ type, ...props }) => {
   const [showAdd, setShowAdd] = useState(false)
   const queryClient = useQueryClient()
 
   const refetchData = () => {
     setShowAdd(false)
-    queryClient.invalidateQueries(QUERIES.COFFEE_QUERY)
+    const QUERY = type === 'roasters' ? QUERIES.ROASTER_QUERY : QUERIES.COFFEE_QUERY
+    queryClient.invalidateQueries(QUERY)
   }
 
   return (
@@ -39,9 +41,16 @@ const Header = ({ user, roasters }) => {
           onClick={() => setShowAdd(true)}
           className="ml-3 inline-flex bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-center"
         >
-          <PlusIconSolid className="h-5 w-5 mr-1" aria-hidden="true" /> Add a coffee
+          <PlusIconSolid className="h-5 w-5 mr-1" aria-hidden="true" /> Add a{' '}
+          {type === 'roasters' ? 'roaster' : 'coffee'}
         </button>
-        {showAdd && <AddCoffeeAside user={user} roasters={roasters} onClose={refetchData} />}
+        {showAdd ? (
+          type === 'roasters' ? (
+            <AddRoasterAside {...props} onClose={refetchData} />
+          ) : (
+            <AddCoffeeAside {...props} onClose={refetchData} />
+          )
+        ) : null}
       </div>
     </div>
   )
