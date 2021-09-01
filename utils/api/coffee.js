@@ -30,3 +30,9 @@ export const getCoffeesForRoaster = async ({ currentRoaster }) => {
 
   return data
 }
+
+export const removeCoffee = async ({ id }) => {
+  const { data } = await supabase.from(COFFEE_DB).delete().match({ id })
+
+  return data
+}

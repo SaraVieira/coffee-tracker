@@ -1,26 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { supabase } from '../utils/initSupabase'
 
-export default function Avatar({ url, size, onUpload, storageName }) {
-  const [avatarUrl, setAvatarUrl] = useState(null)
+export default function Avatar({ onUpload, storageName }) {
   const [uploading, setUploading] = useState(false)
-
-  useEffect(() => {
-    if (url) downloadImage(url)
-  }, [url])
-
-  async function downloadImage(path) {
-    try {
-      const { data, error } = await supabase.storage.from(storageName).download(path)
-      if (error) {
-        throw error
-      }
-      const url = URL.createObjectURL(data)
-      setAvatarUrl(url)
-    } catch (error) {
-      console.log('Error downloading image: ', error.message)
-    }
-  }
 
   async function uploadAvatar(event) {
     try {

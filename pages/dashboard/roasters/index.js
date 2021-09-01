@@ -8,16 +8,16 @@ import {
 import DashboardLayout from '../../../components/Layout/DashboardLayout'
 import RoastersAside from '../../../components/Asides/RoastersAside'
 import classNames from '../../../utils/classsesNames'
-import getInitials from '../../../utils/getInitials'
 import AddRoasterAside from '../../../components/Asides/AddRoasterAside'
 import { getUser } from '../../../utils/requireAuth'
 import { getRoasters } from '../../../utils/api/roasters'
-import {  useQuery, useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import IncognitoAvatar from '../../../components/Avatar'
+import { QUERIES } from '../../../utils/constants'
 
 const Roasters = ({ roasters: starterRoasters, user }) => {
   const queryClient = useQueryClient()
-  const { data: roasters } = useQuery('fetch-roasters', () => getRoasters({ user }), {
+  const { data: roasters } = useQuery(QUERIES.ROASTER_QUERY, () => getRoasters({ user }), {
     initialData: starterRoasters,
   })
 
@@ -58,7 +58,7 @@ const Roasters = ({ roasters: starterRoasters, user }) => {
                       user={user}
                       onClose={() => {
                         setShowAdd(false)
-                        queryClient.invalidateQueries('fetch-roasters')
+                        queryClient.invalidateQueries(QUERIES.ROASTER_QUERY)
                       }}
                     />
                   )}

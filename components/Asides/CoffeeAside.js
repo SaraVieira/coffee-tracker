@@ -1,19 +1,30 @@
+import { useRouter } from 'next/router'
+import { useMutation } from 'react-query'
+import { removeCoffee } from '../../utils/api/coffee'
 import classNames from '../../utils/classsesNames'
+import { COFFEES_ROUTE } from '../../utils/constants'
 import IncognitoAvatar from '../Avatar'
 import AsideWrapper from './Wrapper'
 
-const CoffeeAside = ({ setCurrentCoffee, currentCoffee }) => {
+const CoffeeAside = ({ refetchData, currentCoffee }) => {
+  const router = useRouter()
   const info = [
     { key: 'Roaster', value: currentCoffee.roaster.name, href: currentCoffee.roaster.website },
     { key: 'Roast', value: currentCoffee.roast },
     { key: 'Origin', value: `${currentCoffee.origin_city}, ${currentCoffee.origin_country}` },
     { key: 'Flavors', value: currentCoffee.flavors },
   ]
+  const mutation = useMutation(() => removeCoffee({ id: currentCoffee.id }), {
+    onSuccess: () => {
+      router.push(COFFEES_ROUTE, null, { shallow: true })
+      refetchData()
+    },
+  })
 
   return (
     <AsideWrapper
       closeAside={() => {
-        setCurrentCoffee(null)
+        router.push(COFFEES_ROUTE, null, { shallow: true })
       }}
     >
       <div className="pb-16 space-y-6">
@@ -93,6 +104,7 @@ const CoffeeAside = ({ setCurrentCoffee, currentCoffee }) => {
             Add a tasting
           </a>
           <button
+            onClick={mutation.mutate}
             type="button"
             className="flex-1 ml-3 bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >

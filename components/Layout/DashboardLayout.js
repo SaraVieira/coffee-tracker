@@ -59,7 +59,7 @@ export default function DashboardLayout({ children, title }) {
         current: route === ROASTERS_ROUTE,
       },
     ],
-    []
+    [route]
   )
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { user } = useUser()

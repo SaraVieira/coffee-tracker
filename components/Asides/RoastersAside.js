@@ -1,16 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
 import { getCoffeesForRoaster } from '../../utils/api/coffee'
 import classNames from '../../utils/classsesNames'
 import IncognitoAvatar from '../Avatar'
 import AsideWrapper from './Wrapper'
 
-const RoastersAside = ({ setCurrentRoaster,  currentRoaster }) => {
-  const [coffees, setCoffees] = useState()
-
-  useEffect(async () => {
-    const coffees = await getCoffeesForRoaster({ currentRoaster })
-    setCoffees(coffees)
-  }, [])
+const RoastersAside = ({ setCurrentRoaster, currentRoaster }) => {
+  const { data: coffees } = useQuery('coffees-for-roaster', () =>
+    getCoffeesForRoaster({ currentRoaster })
+  )
 
   return (
     <AsideWrapper

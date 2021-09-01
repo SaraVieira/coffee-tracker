@@ -17,3 +17,8 @@ export const DASHBOARD_ROUTE = '/dashboard'
 export const ROASTERS_ROUTE = '/dashboard/roasters'
 export const TASTINGS_ROUTE = '/dashboard/tastings'
 export const COFFEES_ROUTE = '/dashboard/coffees'
+
+export const QUERIES = {
+  COFFEE_QUERY: `get-coffees`,
+  ROASTER_QUERY: `get-roasters`,
+}

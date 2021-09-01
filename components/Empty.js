@@ -1,6 +1,3 @@
-/* This example requires Tailwind CSS v2.0+ */
-import { PlusIcon } from '@heroicons/react/solid'
-
 export default function Empty({ children }) {
   return (
     <div className="text-center">

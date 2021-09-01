@@ -6,7 +6,6 @@ import Select from '../form/Select'
 import Avatar from '../UploadImages'
 import AsideWrapper from './Wrapper'
 import { addCoffee } from '../../utils/api/coffee'
-
 const AddCoffeeAside = ({ user, onClose, roasters }) => {
   const [state, setState] = useState({})
 
@@ -28,80 +27,78 @@ const AddCoffeeAside = ({ user, onClose, roasters }) => {
 
   return (
     <AsideWrapper closeAside={onClose}>
-      <form className="space-y-8 divide-y divide-gray-200" onSubmit={insertCoffee}>
-        <div className="space-y-8 divide-y divide-gray-200">
-          <div>
-            <Input
-              value={state.name}
-              onChange={(e) => setState((s) => ({ ...s, name: e.target.value }))}
-              name="name"
-              label="Name"
-              required
-            />
-            <Select
+      <form className="space-y-8" onSubmit={insertCoffee}>
+        <div>
+          <Input
+            value={state.name}
+            onChange={(e) => setState((s) => ({ ...s, name: e.target.value }))}
+            name="name"
+            label="Name"
             required
-              name="roaster"
-              label="roaster"
-              options={roasterOptions}
-              value={state.roaster}
-              onChange={(e) => setState((s) => ({ ...s, roaster: e.target.value }))}
-            />
+          />
+          <Select
+            required
+            name="roaster"
+            label="roaster"
+            options={roasterOptions}
+            value={state.roaster}
+            onChange={(e) => setState((s) => ({ ...s, roaster: e.target.value }))}
+          />
 
-            <Input
-              value={state.origin_city}
-              onChange={(e) => setState((s) => ({ ...s, origin_city: e.target.value }))}
-              name="originCity"
-              label="Origin City"
-            />
-            <Input
-              value={state.origin_country}
-              onChange={(e) => setState((s) => ({ ...s, origin_country: e.target.value }))}
-              name="originCountry"
-              label="Origin Country"
-            />
-            <Select
-              name="roast"
-              label="Roast"
-              options={[
-                {
-                  key: 'Espresso',
-                  value: 'Espresso',
-                },
-                {
-                  key: 'Filter',
-                  value: 'Filter',
-                },
-                {
-                  key: 'Mixed',
-                  value: 'Mixed',
-                },
-              ]}
-              value={state.roast}
-              onChange={(e) => setState((s) => ({ ...s, roast: e.target.value }))}
-            />
+          <Input
+            value={state.origin_city}
+            onChange={(e) => setState((s) => ({ ...s, origin_city: e.target.value }))}
+            name="originCity"
+            label="Origin City"
+          />
+          <Input
+            value={state.origin_country}
+            onChange={(e) => setState((s) => ({ ...s, origin_country: e.target.value }))}
+            name="originCountry"
+            label="Origin Country"
+          />
+          <Select
+            name="roast"
+            label="Roast"
+            options={[
+              {
+                key: 'Espresso',
+                value: 'Espresso',
+              },
+              {
+                key: 'Filter',
+                value: 'Filter',
+              },
+              {
+                key: 'Mixed',
+                value: 'Mixed',
+              },
+            ]}
+            value={state.roast}
+            onChange={(e) => setState((s) => ({ ...s, roast: e.target.value }))}
+          />
 
-            <Avatar
-              onUpload={(url) =>
-                setState((s) => ({
-                  ...s,
-                  image: `${STORAGE_BASE_URL}${COFFEE_STORAGE}/${url}`,
-                }))
-              }
-              storageName={COFFEE_STORAGE}
-            />
-            <Input
-              value={state.flavors}
-              onChange={(e) => setState((s) => ({ ...s, flavors: e.target.value }))}
-              name="flavors"
-              label="Flavors"
-            />
-            <Textarea
-              name="notes"
-              label="Notes"
-              value={state.notes}
-              onChange={(e) => setState((s) => ({ ...s, notes: e.target.value }))}
-            />
-          </div>
+          <Avatar
+            onUpload={(url) =>
+              setState((s) => ({
+                ...s,
+                image: `${STORAGE_BASE_URL}${COFFEE_STORAGE}/${url}`,
+              }))
+            }
+            storageName={COFFEE_STORAGE}
+          />
+          <Input
+            value={state.flavors}
+            onChange={(e) => setState((s) => ({ ...s, flavors: e.target.value }))}
+            name="flavors"
+            label="Flavors"
+          />
+          <Textarea
+            name="notes"
+            label="Notes"
+            value={state.notes}
+            onChange={(e) => setState((s) => ({ ...s, notes: e.target.value }))}
+          />
         </div>
 
         <div className="pt-5">
