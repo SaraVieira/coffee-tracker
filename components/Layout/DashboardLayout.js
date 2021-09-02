@@ -3,7 +3,7 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import { MenuAlt2Icon, XIcon } from '@heroicons/react/outline'
 import { SearchIcon } from '@heroicons/react/solid'
 import { signOut, useUser } from '../../hooks/authUser'
-import Link from 'next/link'
+import Link from 'next/Link'
 import Router, { useRouter } from 'next/router'
 import {
   COFFEES_ROUTE,

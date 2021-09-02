@@ -12,6 +12,8 @@ const LoginView = () => {
   const githubLogin = async () => {
     await supabase.auth.signIn({
       provider: 'github',
+    }, {
+      redirectTo: '/dashboard'
     })
   }
 
@@ -21,6 +23,8 @@ const LoginView = () => {
     await supabase.auth.signIn({
       email,
       password,
+    }, {
+      redirectTo: '/dashboard'
     })
     setLoading(false)
   }

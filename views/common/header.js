@@ -14,6 +14,7 @@ const Header = ({ type, ...props }) => {
   const queryClient = useQueryClient()
 
   const refetchData = () => {
+   
     setShowAdd(false)
     const QUERY = type === 'roasters' ? QUERIES.ROASTER_QUERY : QUERIES.COFFEE_QUERY
     queryClient.invalidateQueries(QUERY)
@@ -44,7 +45,7 @@ const Header = ({ type, ...props }) => {
           <PlusIconSolid className="h-5 w-5 mr-1" aria-hidden="true" /> Add a{' '}
           {type === 'roasters' ? 'roaster' : 'coffee'}
         </button>
-        <AddCoffeeAside {...props} onClose={refetchData} />
+
         {showAdd ? (
           type === 'roasters' ? (
             <AddRoasterAside {...props} onClose={refetchData} />

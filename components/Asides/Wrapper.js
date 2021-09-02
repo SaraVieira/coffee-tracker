@@ -2,18 +2,18 @@ import { Transition } from '@headlessui/react'
 import { useDetectClickOutside } from 'react-detect-click-outside'
 
 const AsideWrapper = ({ children, closeAside }) => {
-  const ref = useDetectClickOutside({ onTriggered: closeAside })
+  const ref = useDetectClickOutside({ onTriggered: console.log })
   return (
     <Transition
       appear={true}
       show={true}
       enter="transition ease-out duration-400"
-      enterFrom="transform right-[-500px] absolute top-0 h-screen w-full md:w-96"
-      enterTo="transform right-0 absolute absolute top-0 h-screen w-full md:w-96"
+      enterFrom="transform right-[-500px] absolute top-0 h-full w-full md:w-96 z-20"
+      enterTo="transform right-0 absolute absolute top-0 h-full w-full md:w-96 z-20"
       leave="transition ease-in duration-75"
       leaveFrom="transform right-0"
       leaveTo="transform right-[-500px]"
-      entered="absolute top-0 h-screen w-full md:w-96 right-0"
+      entered="absolute top-0 h-full w-full md:w-96 z-20 right-0"
     >
       <aside
         className=" bg-white p-8 border-l border-gray-200 overflow-y-auto pt-20 h-full relative z-10"
