@@ -44,6 +44,7 @@ const Header = ({ type, ...props }) => {
           <PlusIconSolid className="h-5 w-5 mr-1" aria-hidden="true" /> Add a{' '}
           {type === 'roasters' ? 'roaster' : 'coffee'}
         </button>
+        <AddCoffeeAside {...props} onClose={refetchData} />
         {showAdd ? (
           type === 'roasters' ? (
             <AddRoasterAside {...props} onClose={refetchData} />

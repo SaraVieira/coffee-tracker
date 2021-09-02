@@ -12,7 +12,9 @@ const Select = ({ label, name, options, ...props }) => (
       >
         <option>Select a Roaster</option>
         {options.map((option) => (
-          <option value={option.key}>{option.value}</option>
+          <option key={option.key} value={option.key}>
+            {option.value}
+          </option>
         ))}
       </select>
     </div>

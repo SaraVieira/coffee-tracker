@@ -3,9 +3,13 @@ import { COFFEE_STORAGE, STORAGE_BASE_URL } from '../../utils/constants'
 import Input from '../form/Input'
 import Textarea from '../form/TextArea'
 import Select from '../form/Select'
+
 import Avatar from '../UploadImages'
 import AsideWrapper from './Wrapper'
 import { addCoffee } from '../../utils/api/coffee'
+import { flavorsSelect } from '../../utils/flavors'
+import MultiSelect from '../form/MultiSelect'
+
 const AddCoffeeAside = ({ user, onClose, roasters }) => {
   const [state, setState] = useState({})
 
@@ -87,12 +91,18 @@ const AddCoffeeAside = ({ user, onClose, roasters }) => {
             }
             storageName={COFFEE_STORAGE}
           />
-          <Input
+          <MultiSelect
+            options={flavorsSelect}
+            label="Flavors"
+            name="flavors"
+            onChange={(values) => setState((s) => ({ ...s, flavors: values.map((a) => a.value) }))}
+          />
+          {/* <Input
             value={state.flavors}
             onChange={(e) => setState((s) => ({ ...s, flavors: e.target.value }))}
             name="flavors"
             label="Flavors"
-          />
+          /> */}
           <Textarea
             name="notes"
             label="Notes"

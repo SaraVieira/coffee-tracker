@@ -12,7 +12,7 @@ const CoffeeAside = ({ refetchData, currentCoffee }) => {
     { key: 'Roaster', value: currentCoffee.roaster.name, href: currentCoffee.roaster.website },
     { key: 'Roast', value: currentCoffee.roast },
     { key: 'Origin', value: `${currentCoffee.origin_city}, ${currentCoffee.origin_country}` },
-    { key: 'Flavors', value: currentCoffee.flavors },
+    { key: 'Flavors', value: JSON.parse(currentCoffee.flavors).join(', ') },
   ]
   const sendHome = () => router.push(COFFEES_ROUTE, undefined, { shallow: true })
 
@@ -51,25 +51,28 @@ const CoffeeAside = ({ refetchData, currentCoffee }) => {
           </div>
         </div>
         <dl className="mt-2 border-t border-b border-gray-200 divide-y divide-gray-200">
-          {info.map(({ key, value, href }) => (
-            <div className="py-3 flex justify-between text-sm font-medium" key={key}>
-              <dt className="text-gray-500">{key}</dt>
-              <dd className="text-gray-900">
-                {href ? (
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="underline text-blue-500"
-                  >
-                    {value}
-                  </a>
-                ) : (
-                  value
-                )}
-              </dd>
-            </div>
-          ))}
+          {info.map(
+            ({ key, value, href }) =>
+              value && (
+                <div className="py-3 flex justify-between text-sm font-medium" key={key}>
+                  <dt className="text-gray-500">{key}</dt>
+                  <dd className="text-gray-900 text-right">
+                    {href ? (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline text-blue-500"
+                      >
+                        {value}
+                      </a>
+                    ) : (
+                      value
+                    )}
+                  </dd>
+                </div>
+              )
+          )}
         </dl>
         {currentCoffee.notes && (
           <div>
@@ -87,7 +90,7 @@ const CoffeeAside = ({ refetchData, currentCoffee }) => {
               {Object.keys(currentCoffee.tastings).map((key) => (
                 <div key={key} className="py-3 flex justify-between text-sm font-medium">
                   <dt className="text-gray-500">{key}</dt>
-                  <dd className="text-gray-900">{currentCoffee.information[key]}</dd>
+                  <dd className="text-gray-900 text-right">{currentCoffee.information[key]}</dd>
                 </div>
               ))}
             </dl>
