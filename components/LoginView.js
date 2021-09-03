@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { LOGIN_VIEWS } from '../utils/constants'
 import { supabase } from '../utils/initSupabase'
@@ -8,13 +9,13 @@ const LoginView = () => {
   const [password, setPassword] = useState('')
   const [view, setView] = useState(LOGIN_VIEWS.CREATE)
   const [message, setMessage] = useState('')
+  const { push } = useRouter()
 
   const githubLogin = async () => {
     await supabase.auth.signIn({
       provider: 'github',
-    }, {
-      redirectTo: '/dashboard'
     })
+    push('/dashboard')
   }
 
   const signIn = async (e) => {
@@ -23,10 +24,9 @@ const LoginView = () => {
     await supabase.auth.signIn({
       email,
       password,
-    }, {
-      redirectTo: '/dashboard'
     })
     setLoading(false)
+    push('/dashboard')
   }
 
   const signUp = async (e) => {
