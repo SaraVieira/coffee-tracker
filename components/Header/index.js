@@ -170,12 +170,11 @@ export default function Header() {
                 </a>
               ))}
             </div>
-            <a
-              href="#"
-              className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
-            >
-              Log in
-            </a>
+            <Link href="/auth">
+              <a className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100">
+                Log in
+              </a>
+            </Link>
           </div>
         </Popover.Panel>
       </Transition>

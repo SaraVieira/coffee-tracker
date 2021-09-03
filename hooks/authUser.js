@@ -78,7 +78,6 @@ export const UserContextProvider = (props) => {
           .eq('id', user.id)
           .single()
 
-        push('/dashboard')
         if (error && status === 406) {
           await updateProfile(user)
         }
