@@ -1,4 +1,4 @@
-import Link from 'next/Link'
+import Link from 'next/link'
 import { Fragment } from 'react'
 import { Popover } from '@headlessui/react'
 import Router from 'next/router'
