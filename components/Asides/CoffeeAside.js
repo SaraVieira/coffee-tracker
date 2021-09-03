@@ -1,12 +1,17 @@
 import { useRouter } from 'next/router'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { removeCoffee } from '../../utils/api/coffee'
+import { getTastingsForCoffee } from '../../utils/api/tastings'
 import classNames from '../../utils/classsesNames'
 import { COFFEES_ROUTE } from '../../utils/constants'
 import IncognitoAvatar from '../Avatar'
+import Spinner from '../Spinner'
 import AsideWrapper from './Wrapper'
 
-const CoffeeAside = ({ refetchData, currentCoffee }) => {
+const CoffeeAside = ({ refetchData, currentCoffee, user }) => {
+  const { data: tastings } = useQuery(['get-tastings-for-coffee', currentCoffee.id], () =>
+    getTastingsForCoffee({ user, currentCoffee })
+  )
   const router = useRouter()
   const info = [
     { key: 'Roaster', value: currentCoffee.roaster.name, href: currentCoffee.roaster.website },
@@ -83,19 +88,57 @@ const CoffeeAside = ({ refetchData, currentCoffee }) => {
           </div>
         )}
 
-        {currentCoffee.tastings && (
-          <div>
-            <h3 className="font-medium text-gray-900">Tastings</h3>
-            <dl className="mt-2 border-t border-b border-gray-200 divide-y divide-gray-200">
-              {Object.keys(currentCoffee.tastings).map((key) => (
-                <div key={key} className="py-3 flex justify-between text-sm font-medium">
-                  <dt className="text-gray-500">{key}</dt>
-                  <dd className="text-gray-900 text-right">{currentCoffee.information[key]}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        )}
+        <div>
+          <h3 className="font-medium text-gray-900">Tastings</h3>
+          <dl className="mt-2 border-t border-b border-gray-200 divide-y divide-gray-200">
+            {tastings ? (
+              !tastings.length ? (
+                <p className="text-gray-500 py-3 text-sm font-medium">No tastings added</p>
+              ) : (
+                tastings.map((tasting) => (
+                  <div key={tasting.id} className="py-3 flex justify-between text-sm font-medium">
+                    <dt className="text-gray-500">{tasting.name}</dt>
+                    <dd className="text-gray-900 text-right">
+                      {tasting.liked ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6 text-green-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-6 w-6 text-red-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      )}
+                    </dd>
+                  </div>
+                ))
+              )
+            ) : (
+              <Spinner />
+            )}
+          </dl>
+        </div>
 
         <div className="flex">
           <a

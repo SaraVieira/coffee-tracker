@@ -38,7 +38,10 @@ export const removeCoffee = async ({ id }) => {
 }
 
 export const getMinimalCoffees = async ({ user }) => {
-  const { data: coffees } = await supabase.from(COFFEE_DB).select('id, name').eq('user', user.id)
+  const { data: coffees } = await supabase
+    .from(COFFEE_DB)
+    .select('id, name, roaster')
+    .eq('user', user.id)
 
   return coffees
 }

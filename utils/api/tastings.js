@@ -1,4 +1,4 @@
-import { TASTINGS_DB } from '../constants'
+import { COFFEE_DB, TASTINGS_DB } from '../constants'
 import { supabase } from '../initSupabase'
 
 export const getTastings = async ({ user }) => {
@@ -6,32 +6,34 @@ export const getTastings = async ({ user }) => {
     .from(TASTINGS_DB)
     .select(
       `
-  *,
-  roaster (
-    id,
-    name,
-    website
-  )
-  coffee (
-    id,
-    name
-  ) `
+      *,
+      roaster (
+        id,
+        name,
+        website
+      ),
+      coffee (
+        id,
+        name
+      )
+  `
     )
     .eq('user', user.id)
 
   return tastings
 }
 
-export const addCoffee = async (tasting) => {
+export const addTasting = async (tasting) => {
   const { data } = await supabase.from(TASTINGS_DB).insert(tasting)
   return data
 }
 
-export const getCoffeesForTasting = async ({ currentRoaster }) => {
+export const getTastingsForCoffee = async ({ currentCoffee, user }) => {
   const { data } = await supabase
     .from(TASTINGS_DB)
-    .select('id,name,roast')
-    .eq('roaster', currentRoaster.id)
+    .select('id,name,liked')
+    .eq('coffee', currentCoffee.id)
+    .eq('user', user.id)
 
   return data
 }

@@ -4,10 +4,7 @@ import { getTastings } from '../../../utils/api/tastings'
 import { getUser } from '../../../utils/requireAuth'
 import Tastings from '../../../views/tastings/main'
 
-const TastingsPage = (props) => {
-  console.log(props)
-  return <Tastings {...props} />
-}
+const TastingsPage = (props) => <Tastings {...props} />
 
 export async function getServerSideProps({ req }) {
   const { user } = await getUser(req)

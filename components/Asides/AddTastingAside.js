@@ -6,18 +6,19 @@ import Select from '../form/Select'
 
 import Avatar from '../UploadImages'
 import AsideWrapper from './Wrapper'
-import { addCoffee } from '../../utils/api/coffee'
-import { flavorsSelect } from '../../utils/flavors'
-import MultiSelect from '../form/MultiSelect'
+import { addTasting } from '../../utils/api/tastings'
 import { CoffeeIcon } from '../Icons'
+import Checkbox from '../form/Checkbox'
 
-const AddTastingAside = ({ user, onClose, roasters }) => {
-  const [state, setState] = useState({})
+const AddTastingAside = ({ user, onClose, roasters, coffees }) => {
+  const [state, setState] = useState({
+    name: `Tasting at ${new Intl.DateTimeFormat('en').format()}`,
+  })
 
-  const insertCoffee = async (e) => {
+  const insertTasting = async (e) => {
     e.preventDefault()
     try {
-      await addCoffee({
+      await addTasting({
         user: user.id,
         ...state,
       })
@@ -29,12 +30,18 @@ const AddTastingAside = ({ user, onClose, roasters }) => {
     () => roasters.map((roaster) => ({ key: roaster.id, value: roaster.name })),
     [roasters]
   )
+  const coffeeOptions = useMemo(
+    () =>
+      coffees
+        .filter((c) => c.roaster === parseInt(state.roaster))
+        .map((coffee) => ({ key: coffee.id, value: coffee.name })),
+    [coffees, state.roaster]
+  )
 
   return (
     <AsideWrapper closeAside={onClose}>
-      <form className="space-y-8" onSubmit={insertCoffee}>
+      <form className="space-y-8" onSubmit={insertTasting}>
         <div>
-          <Rating label="Taste" onChange={console.log} />
           <Input
             value={state.name}
             onChange={(e) => setState((s) => ({ ...s, name: e.target.value }))}
@@ -45,59 +52,28 @@ const AddTastingAside = ({ user, onClose, roasters }) => {
           <Select
             required
             name="roaster"
-            label="roaster"
+            label="Roaster"
             options={roasterOptions}
             value={state.roaster}
             onChange={(e) => setState((s) => ({ ...s, roaster: e.target.value }))}
           />
-
-          <Input
-            value={state.origin_city}
-            onChange={(e) => setState((s) => ({ ...s, origin_city: e.target.value }))}
-            name="originCity"
-            label="Origin City"
-          />
-          <Input
-            value={state.origin_country}
-            onChange={(e) => setState((s) => ({ ...s, origin_country: e.target.value }))}
-            name="originCountry"
-            label="Origin Country"
-          />
           <Select
-            name="roast"
-            label="Roast"
-            options={[
-              {
-                key: 'Espresso',
-                value: 'Espresso',
-              },
-              {
-                key: 'Filter',
-                value: 'Filter',
-              },
-              {
-                key: 'Mixed',
-                value: 'Mixed',
-              },
-            ]}
-            value={state.roast}
-            onChange={(e) => setState((s) => ({ ...s, roast: e.target.value }))}
+            disabled={!state.roaster}
+            required
+            name="coffee"
+            label="Coffee"
+            options={coffeeOptions}
+            value={state.coffee}
+            onChange={(e) => setState((s) => ({ ...s, coffee: e.target.value }))}
           />
 
-          <Avatar
-            onUpload={(url) =>
-              setState((s) => ({
-                ...s,
-                image: `${STORAGE_BASE_URL}${COFFEE_STORAGE}/${url}`,
-              }))
-            }
-            storageName={COFFEE_STORAGE}
-          />
-          <MultiSelect
-            options={flavorsSelect}
-            label="Flavors"
-            name="flavors"
-            onChange={(values) => setState((s) => ({ ...s, flavors: values.map((a) => a.value) }))}
+          <Rating label="Taste" onChange={(value) => setState((s) => ({ ...s, taste: value }))} />
+          <Rating label="Smell" onChange={(value) => setState((s) => ({ ...s, smell: value }))} />
+          <Checkbox
+            name="liked"
+            label="Liked"
+            description="     I liked this tasting"
+            onChange={(e) => setState((s) => ({ ...s, liked: e.target.checked }))}
           />
           <Textarea
             name="notes"

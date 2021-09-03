@@ -9,7 +9,6 @@ import { useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { QUERIES } from '../../utils/constants'
 import AddTastingAside from '../../components/Asides/AddTastingAside'
-import { CoffeeIcon } from '../../components/Icons'
 
 const queries = {
   roasters: QUERIES.ROASTER_QUERY,

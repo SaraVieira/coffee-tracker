@@ -13,21 +13,21 @@ const MultiSelect = ({ options, name, label, ...props }) => {
         <Select
           options={options}
           styles={{
-            indicatorSeparator: () => ({display: 'none'}),
+            indicatorSeparator: () => ({ display: 'none' }),
             placeholder: () => ({
-              fontSize: "0.875rem",
-    color: "rgba(55, 65, 81, 1))",
-    paddingLeft: 5,
+              fontSize: '0.875rem',
+              color: 'rgba(55, 65, 81, 1))',
+              paddingLeft: 5,
             }),
             control: (p) => ({
               ...p,
-              borderRadius: "0.375rem",
-              borderColor: "rgba(209, 213, 219, 1)"
+              borderRadius: '0.375rem',
+              borderColor: 'rgba(209, 213, 219, 1)',
             }),
             indicatorsContainer: (p) => ({
               ...p,
-              color: 'hsl(0, 0%, 60%)'
-            })
+              color: 'hsl(0, 0%, 60%)',
+            }),
           }}
           isMulti
           name={name}

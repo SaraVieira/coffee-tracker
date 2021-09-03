@@ -201,7 +201,7 @@ export default function DashboardLayout({ children, title }) {
             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
           </button>
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-between items-center">
-          <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+            <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
             <div className="ml-4 flex items-center md:ml-6">
               <Menu as="div" className="relative flex-shrink-0 ml-4">
                 <div>
@@ -260,7 +260,7 @@ export default function DashboardLayout({ children, title }) {
         </div>
 
         <main className="flex-1 relative overflow-y-auto focus:outline-none">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">{children}</div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">{children}</div>
         </main>
       </div>
     </div>

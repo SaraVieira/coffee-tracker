@@ -47,6 +47,7 @@ const Coffees = ({ coffees: starterCoffees, user, roasters }) => {
 
           {id && (
             <CoffeeAside
+              user={user}
               refetchData={refetchData}
               currentCoffee={coffees.find((c) => c.id === id)}
             />
