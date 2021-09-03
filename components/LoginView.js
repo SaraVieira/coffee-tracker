@@ -15,7 +15,6 @@ const LoginView = () => {
     await supabase.auth.signIn({
       provider: 'github',
     })
-    push('/dashboard')
   }
 
   const signIn = async (e) => {
@@ -26,7 +25,6 @@ const LoginView = () => {
       password,
     })
     setLoading(false)
-    push('/dashboard')
   }
 
   const signUp = async (e) => {

@@ -54,6 +54,7 @@ async function updateProfile() {
 export const UserContextProvider = (props) => {
   const [session, setSession] = useState(false)
   const [user, setUser] = useState(false)
+  const { push } = useRouter()
 
   useEffect(() => {
     const session = supabase.auth.session()
@@ -76,6 +77,8 @@ export const UserContextProvider = (props) => {
           .select('id')
           .eq('id', user.id)
           .single()
+
+        push('/dashboard')
         if (error && status === 406) {
           await updateProfile(user)
         }
