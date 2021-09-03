@@ -7,6 +7,7 @@ export const COLORS = ['#00819d', '#00a4a6', '#00a4a6', '#00a4a6', '#336E7B', '#
 
 export const COFFEE_DB = 'coffees'
 export const ROASTERS_DB = 'roasters'
+export const TASTINGS_DB = 'tastings'
 
 export const STORAGE_BASE_URL = 'https://aakriwpnapmmttzkjrdz.supabase.in/storage/v1/object/public/'
 export const COFFEE_STORAGE = 'coffees'
@@ -21,4 +22,5 @@ export const COFFEES_ROUTE = '/dashboard/coffees'
 export const QUERIES = {
   COFFEE_QUERY: `get-coffees`,
   ROASTER_QUERY: `get-roasters`,
+  TASTING_QUERY: `get-tastings`,
 }

@@ -12,8 +12,8 @@ export const RoastersIcons = () => (
   </svg>
 )
 
-export const CoffeeIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className={classNames}>
+export const CoffeeIcon = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className={classNames} {...props}>
     <path
       fill="currentColor"
       d="M70.51,28.77a23.12,23.12,0,0,0-32.69,0l-2.44,2.44-6.61,6.61a23.12,23.12,0,0,0,0,32.69l.71.71a23.12,23.12,0,0,0,32.69,0l9-9a23.12,23.12,0,0,0,0-32.69ZM28,54.17a17,17,0,0,1,5-12.11l6.61-6.61L42.06,33a17.08,17.08,0,0,1,22.3-1.62l-33,33A17,17,0,0,1,28,54.17Zm39,3.77-9,9a17.08,17.08,0,0,1-22.3,1.62l33-33A17.08,17.08,0,0,1,67,57.94Z"

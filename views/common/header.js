@@ -8,16 +8,34 @@ import AddCoffeeAside from '../../components/Asides/AddCoffeeAside'
 import { useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { QUERIES } from '../../utils/constants'
+import AddTastingAside from '../../components/Asides/AddTastingAside'
+import { CoffeeIcon } from '../../components/Icons'
+
+const queries = {
+  roasters: QUERIES.ROASTER_QUERY,
+  coffee: QUERIES.COFFEE_QUERY,
+  tastings: QUERIES.TASTING_QUERY,
+}
+
+const aside = {
+  roasters: AddRoasterAside,
+  coffee: AddCoffeeAside,
+  tastings: AddTastingAside,
+}
+
+const addText = {
+  roasters: 'roaster',
+  coffee: 'coffee',
+  tastings: 'tasting',
+}
 
 const Header = ({ type, ...props }) => {
   const [showAdd, setShowAdd] = useState(false)
   const queryClient = useQueryClient()
-
+  const Aside = aside[type]
   const refetchData = () => {
-   
     setShowAdd(false)
-    const QUERY = type === 'roasters' ? QUERIES.ROASTER_QUERY : QUERIES.COFFEE_QUERY
-    queryClient.invalidateQueries(QUERY)
+    queryClient.invalidateQueries(queries[type])
   }
 
   return (
@@ -42,17 +60,10 @@ const Header = ({ type, ...props }) => {
           onClick={() => setShowAdd(true)}
           className="ml-3 inline-flex bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-center"
         >
-          <PlusIconSolid className="h-5 w-5 mr-1" aria-hidden="true" /> Add a{' '}
-          {type === 'roasters' ? 'roaster' : 'coffee'}
+          <PlusIconSolid className="h-5 w-5 mr-1" aria-hidden="true" /> Add a {addText[type]}
         </button>
 
-        {showAdd ? (
-          type === 'roasters' ? (
-            <AddRoasterAside {...props} onClose={refetchData} />
-          ) : (
-            <AddCoffeeAside {...props} onClose={refetchData} />
-          )
-        ) : null}
+        {showAdd ? <Aside {...props} onClose={refetchData} /> : null}
       </div>
     </div>
   )
